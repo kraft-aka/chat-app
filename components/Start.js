@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import {
-  TextInput,
-  View,
-  StyleSheet,
-  TouchableOpacity,
-  Pressable,
-  ImageBackground,
   Text,
+  View,
+  TextInput,
+  StyleSheet,
+  ImageBackground,
+  Pressable,
+  TouchableOpacity,
 } from "react-native";
 
 // import the background image
@@ -22,8 +22,8 @@ const colors = {
 };
 
 // function Start renders the main page of the app
-const Start = (props) => {
-  // set the state for the name and background input
+export default function Start(props) {
+  // init states for the name and background color
   const [name, setName] = useState("");
   const [color, setColor] = useState();
 
@@ -31,40 +31,36 @@ const Start = (props) => {
     <View style={styles.container}>
       <ImageBackground source={image} resizeMode={"cover"} style={styles.image}>
         <Text style={styles.title}>Chat App</Text>
-
-        <View style={styles.menu}>
+        <View style={styles.box}>
           <TextInput
             style={styles.input}
             onChangeText={(name) => setName(name)}
             value={name}
-            placeholder="Your name..."
+            placeholder="your name..."
           />
-          {/* the main title */}
-          <Text style={styles.txt}>Choose Background Color</Text>
-          <View style={styles.modeColors}>
-            {/* Colors for background */}
+          <Text style={styles.textBg}>Choose Background Color</Text>
+          <View style={styles.colorBg}>
             <TouchableOpacity
-              style={styles.color1}
+              style={styles.colorBlack}
               onPress={() => setColor(colors.black)}
-            ></TouchableOpacity>
+            />
             <TouchableOpacity
-              style={styles.color2}
-              onPress={() => setColor(color.purple)}
-            ></TouchableOpacity>
+              style={styles.colorPurple}
+              onPress={() => setColor(colors.purple)}
+            />
             <TouchableOpacity
-              style={styles.color3}
+              style={styles.colorGray}
               onPress={() => setColor(colors.gray)}
-            ></TouchableOpacity>
+            />
             <TouchableOpacity
-              style={styles.color4}
+              style={styles.colorHackie}
               onPress={() => setColor(colors.hackie)}
-            ></TouchableOpacity>
+            />
             <TouchableOpacity
-              style={styles.color5}
+              style={styles.colorBlue}
               onPress={() => setColor(colors.blue)}
-            ></TouchableOpacity>
+            />
           </View>
-
           <Pressable
             style={styles.btnStart}
             onPress={() => {
@@ -77,7 +73,7 @@ const Start = (props) => {
       </ImageBackground>
     </View>
   );
-};
+}
 
 // this is the declaration of styles for the Start component
 const styles = StyleSheet.create({
@@ -86,91 +82,93 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 
-  menu: {
+  image: {
+    flex: 1,
+    justifyContent: "center",
+  },
+
+  box: {
     flex: 1,
     justifyContent: "space-evenly",
     alignItems: "center",
     backgroundColor: "#fff",
     height: "20%",
     width: "90%",
-    marginLeft: "5%",
-    marginBottom: "5%",
+    marginLeft: 16,
+    marginBottom: 16,
+    borderRadius: 5,
   },
 
   title: {
     flex: 1,
-    justifyContent: "center",
     fontSize: 45,
     fontWeight: "600",
     color: "#fff",
+    marginLeft: 16,
   },
 
   input: {
     height: 40,
     width: "90%",
-    borderColor: "lightgray",
+    borderColor: "gray",
     borderWidth: 1,
-    padding: "5%",
+    padding: 10,
     marginTop: "5%",
+    borderRadius: 5,
   },
 
-  modeColors: {
+  textBg: {
+    fontSize: 20,
+    fontWeight: "300",
+    color: "#757083",
+    padding: 20,
+  },
+
+  colorBg: {
     flex: 1,
     flexDirection: "row",
     justifyContent: "space-between",
   },
 
-  image: {
-    flex: 1,
-    justifyContent: "center",
-  },
-
-  txt: {
-    fontSize: 20,
-    fontWeight: "300",
-    color: "#757083",
-    padding: 30,
-  },
-  color1: {
+  colorBlack: {
     height: 40,
     width: 40,
-    borderRadius: 20,
-    margin: 3,
     backgroundColor: colors.black,
+    borderRadius: 20,
+    margin: 3,
   },
 
-  color2: {
+  colorPurple: {
     height: 40,
     width: 40,
     borderRadius: 20,
-    margin: 3,
     backgroundColor: colors.purple,
+    margin: 3,
   },
 
-  color3: {
+  colorGray: {
     height: 40,
     width: 40,
     borderRadius: 20,
-    margin: 3,
     backgroundColor: colors.gray,
+    margin: 3,
   },
 
-  color4: {
+  colorHackie: {
     height: 40,
     width: 40,
     borderRadius: 20,
-    margin: 3,
     backgroundColor: colors.hackie,
+    margin: 3,
   },
 
-  color5: {
+  colorBlue: {
     height: 40,
     width: 40,
     borderRadius: 20,
-    margin: 3,
     backgroundColor: colors.blue,
+    margin: 3,
   },
-
   btnStart: {
     justifyContent: "center",
     alignItems: "center",
@@ -178,13 +176,12 @@ const styles = StyleSheet.create({
     width: "90%",
     backgroundColor: "#757083",
     marginBottom: "5%",
+    borderRadius: 5,
   },
 
   btnText: {
-    fontSize: "16",
+    fontSize: 16,
     fontWeight: "600",
     color: "#fff",
   },
 });
-
-export default Start;
