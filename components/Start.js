@@ -7,7 +7,7 @@ import {
   Pressable,
   ImageBackground,
   Text,
-} from "react-native-web";
+} from "react-native";
 
 // import the background image
 import image from "../assets/Background_Image.png";
@@ -66,7 +66,6 @@ const Start = (props) => {
           </View>
 
           <Pressable
-          //  this is a button on press redirects to chat
             style={styles.btnStart}
             onPress={() => {
               props.navigation.navigate("Chat", { name: name, color: color });
@@ -89,14 +88,13 @@ const styles = StyleSheet.create({
 
   menu: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "space-evenly",
     alignItems: "center",
     backgroundColor: "#fff",
     height: "20%",
     width: "90%",
     marginLeft: "5%",
     marginBottom: "5%",
-    borderRadius: 5,
   },
 
   title: {
@@ -111,7 +109,6 @@ const styles = StyleSheet.create({
     height: 40,
     width: "90%",
     borderColor: "lightgray",
-    borderRadius: 5,
     borderWidth: 1,
     padding: "5%",
     marginTop: "5%",
@@ -137,7 +134,7 @@ const styles = StyleSheet.create({
   color1: {
     height: 40,
     width: 40,
-    borderRadius: "50%",
+    borderRadius: 20,
     margin: 3,
     backgroundColor: colors.black,
   },
@@ -145,7 +142,7 @@ const styles = StyleSheet.create({
   color2: {
     height: 40,
     width: 40,
-    borderRadius: "50%",
+    borderRadius: 20,
     margin: 3,
     backgroundColor: colors.purple,
   },
@@ -153,7 +150,7 @@ const styles = StyleSheet.create({
   color3: {
     height: 40,
     width: 40,
-    borderRadius: "50%",
+    borderRadius: 20,
     margin: 3,
     backgroundColor: colors.gray,
   },
@@ -161,7 +158,7 @@ const styles = StyleSheet.create({
   color4: {
     height: 40,
     width: 40,
-    borderRadius: "50%",
+    borderRadius: 20,
     margin: 3,
     backgroundColor: colors.hackie,
   },
@@ -169,7 +166,7 @@ const styles = StyleSheet.create({
   color5: {
     height: 40,
     width: 40,
-    borderRadius: "50%",
+    borderRadius: 20,
     margin: 3,
     backgroundColor: colors.blue,
   },
@@ -181,7 +178,6 @@ const styles = StyleSheet.create({
     width: "90%",
     backgroundColor: "#757083",
     marginBottom: "5%",
-    borderRadius: 5,
   },
 
   btnText: {
