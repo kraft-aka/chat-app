@@ -18,7 +18,7 @@ export default function Chat(props) {
     setMessages([
       {
         _id: 1,
-        text: "Hello developer",
+        text: `Hello ${name}`,
         createdAt: new Date(),
         user: {
           _id: 2,
