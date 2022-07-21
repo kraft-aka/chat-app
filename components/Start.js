@@ -41,27 +41,51 @@ export default function Start(props) {
           <Text style={styles.textBg}>Choose Background Color</Text>
           <View style={styles.colorBg}>
             <TouchableOpacity
+              accessible={true}
+              accessibilityLabel='Black background'
+              accessibilityHint="Lets you to alter the background color in chat"
+              accessibilityRole="button"
               style={styles.colorBlack}
               onPress={() => setColor(colors.black)}
             />
             <TouchableOpacity
+              accessible={true}
+              accessibilityLabel='Purple background'
+              accessibilityHint="Lets you to alter the background color in chat"
+              accessibilityRole="button"
               style={styles.colorPurple}
               onPress={() => setColor(colors.purple)}
             />
             <TouchableOpacity
+              accessible={true}
+              accessibilityLabel='Gray background'
+              accessibilityHint="Lets you to alter thebackground color in chat"
+              accessibilityRole="button"
               style={styles.colorGray}
               onPress={() => setColor(colors.gray)}
             />
             <TouchableOpacity
+              accessible={true}
+              accessibilityLabel='Hackie background'
+              accessibilityHint="Lets you to alter thebackground color in chat"
+              accessibilityRole="button"
               style={styles.colorHackie}
               onPress={() => setColor(colors.hackie)}
             />
             <TouchableOpacity
+              accessible={true}
+              accessibilityLabel='Blue background'
+              accessibilityHint="Lets you to alter thebackground color in chat"
+              accessibilityRole="button"
               style={styles.colorBlue}
               onPress={() => setColor(colors.blue)}
             />
           </View>
           <Pressable
+            accessible={true}
+            accessibilityLabel='Go to chat'
+            accessibilityHint="Lets you in chat"
+            accessibilityRole="button"
             style={styles.btnStart}
             onPress={() => {
               props.navigation.navigate("Chat", { name: name, color: color });

@@ -35,6 +35,7 @@ export default function Chat(props) {
     ]);
   }, []);
 
+  // function to send message in chat room
   function onSend(messages = []) {
     setMessages((prevState) => GiftedChat.append(prevState.messages, messages));
   }
