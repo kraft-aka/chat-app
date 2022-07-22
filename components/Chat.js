@@ -3,6 +3,7 @@ import { Bubble, GiftedChat } from "react-native-gifted-chat";
 import { View, StyleSheet, Platform, KeyboardAvoidingView } from "react-native";
 
 export default function Chat(props) {
+  // state for holding messages
   const [messages, setMessages] = useState([]);
 
   // destructuring the porps
@@ -67,6 +68,7 @@ export default function Chat(props) {
         onSend={(messages) => onSend(messages)}
         user={{ _id: 1 }}
       />
+      {/* this prevents the screen collapsing with a keyboard */}
       {Platform.OS === "android" ? (
         <KeyboardAvoidingView behavior="height" />
       ) : null}

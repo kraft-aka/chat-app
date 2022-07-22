@@ -26,6 +26,8 @@ export default function Start(props) {
   // init states for the name and background color
   const [name, setName] = useState("");
   const [color, setColor] = useState();
+
+  // init state to focus in input text
   const [isFocused, setIsFocused] = useState(false);
 
   return (
