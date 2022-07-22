@@ -26,6 +26,9 @@ export default function Start(props) {
   // init states for the name and background color
   const [name, setName] = useState("");
   const [color, setColor] = useState();
+  const [isFocused, setIsFocused] = useState(false); 
+
+
 
   return (
     <View style={styles.container}>
@@ -33,10 +36,12 @@ export default function Start(props) {
         <Text style={styles.title}>Chat App</Text>
         <View style={styles.box}>
           <TextInput
-            style={styles.input}
+            style={[styles.input, isFocused && { backgroundColor: '#F1F7F6', borderColor: '#F1F7F6'}]}
+            onFocus={()=> setIsFocused(!isFocused)}
             onChangeText={(name) => setName(name)}
             value={name}
             placeholder="your name..."
+            {...props}
           />
           <Text style={styles.textBg}>Choose Background Color</Text>
           <View style={styles.colorBg}>
@@ -134,7 +139,7 @@ const styles = StyleSheet.create({
   input: {
     height: 40,
     width: "90%",
-    borderColor: "gray",
+    borderColor: "#D0D1D1",
     borderWidth: 1,
     padding: 10,
     marginTop: "5%",
