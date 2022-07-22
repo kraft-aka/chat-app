@@ -4,7 +4,7 @@ import { View, StyleSheet, Platform, KeyboardAvoidingView } from "react-native";
 
 export default function Chat(props) {
   const [messages, setMessages] = useState([]);
-  
+
   // destructuring the porps
   let { name, color } = props.route.params;
 
@@ -50,7 +50,7 @@ export default function Chat(props) {
           //   backgroundColor: 'blue'
           // },
           right: {
-            backgroundColor: "#000",
+            backgroundColor: "#242ACF",
           },
         }}
       />

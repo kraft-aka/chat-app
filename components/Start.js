@@ -26,9 +26,7 @@ export default function Start(props) {
   // init states for the name and background color
   const [name, setName] = useState("");
   const [color, setColor] = useState();
-  const [isFocused, setIsFocused] = useState(false); 
-
-
+  const [isFocused, setIsFocused] = useState(false);
 
   return (
     <View style={styles.container}>
@@ -36,8 +34,14 @@ export default function Start(props) {
         <Text style={styles.title}>Chat App</Text>
         <View style={styles.box}>
           <TextInput
-            style={[styles.input, isFocused && { backgroundColor: '#F1F7F6', borderColor: '#F1F7F6'}]}
-            onFocus={()=> setIsFocused(!isFocused)}
+            style={[
+              styles.input,
+              isFocused && {
+                backgroundColor: "#F1F7F6",
+                borderColor: "#F1F7F6",
+              },
+            ]}
+            onFocus={() => setIsFocused(!isFocused)}
             onChangeText={(name) => setName(name)}
             value={name}
             placeholder="your name..."
@@ -47,7 +51,7 @@ export default function Start(props) {
           <View style={styles.colorBg}>
             <TouchableOpacity
               accessible={true}
-              accessibilityLabel='Black background'
+              accessibilityLabel="Black background"
               accessibilityHint="Lets you to alter the background color in chat"
               accessibilityRole="button"
               style={styles.colorBlack}
@@ -55,7 +59,7 @@ export default function Start(props) {
             />
             <TouchableOpacity
               accessible={true}
-              accessibilityLabel='Purple background'
+              accessibilityLabel="Purple background"
               accessibilityHint="Lets you to alter the background color in chat"
               accessibilityRole="button"
               style={styles.colorPurple}
@@ -63,7 +67,7 @@ export default function Start(props) {
             />
             <TouchableOpacity
               accessible={true}
-              accessibilityLabel='Gray background'
+              accessibilityLabel="Gray background"
               accessibilityHint="Lets you to alter thebackground color in chat"
               accessibilityRole="button"
               style={styles.colorGray}
@@ -71,7 +75,7 @@ export default function Start(props) {
             />
             <TouchableOpacity
               accessible={true}
-              accessibilityLabel='Hackie background'
+              accessibilityLabel="Hackie background"
               accessibilityHint="Lets you to alter thebackground color in chat"
               accessibilityRole="button"
               style={styles.colorHackie}
@@ -79,7 +83,7 @@ export default function Start(props) {
             />
             <TouchableOpacity
               accessible={true}
-              accessibilityLabel='Blue background'
+              accessibilityLabel="Blue background"
               accessibilityHint="Lets you to alter thebackground color in chat"
               accessibilityRole="button"
               style={styles.colorBlue}
@@ -88,7 +92,7 @@ export default function Start(props) {
           </View>
           <Pressable
             accessible={true}
-            accessibilityLabel='Go to chat'
+            accessibilityLabel="Go to chat"
             accessibilityHint="Lets you in chat"
             accessibilityRole="button"
             style={styles.btnStart}
