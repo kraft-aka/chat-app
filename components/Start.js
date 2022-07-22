@@ -64,7 +64,7 @@ export default function Start(props) {
               accessibilityLabel="Purple background"
               accessibilityHint="Lets you to alter the background color in chat"
               accessibilityRole="button"
-              style={styles.colorPurple}
+              style={[styles.colorBlack, { backgroundColor: colors.purple }]}
               onPress={() => setColor(colors.purple)}
             />
             <TouchableOpacity
@@ -72,7 +72,7 @@ export default function Start(props) {
               accessibilityLabel="Gray background"
               accessibilityHint="Lets you to alter thebackground color in chat"
               accessibilityRole="button"
-              style={styles.colorGray}
+              style={[styles.colorBlack, { backgroundColor: colors.gray }]}
               onPress={() => setColor(colors.gray)}
             />
             <TouchableOpacity
@@ -80,7 +80,7 @@ export default function Start(props) {
               accessibilityLabel="Hackie background"
               accessibilityHint="Lets you to alter thebackground color in chat"
               accessibilityRole="button"
-              style={styles.colorHackie}
+              style={[styles.colorBlack, { backgroundColor: colors.hackie }]}
               onPress={() => setColor(colors.hackie)}
             />
             <TouchableOpacity
@@ -88,7 +88,7 @@ export default function Start(props) {
               accessibilityLabel="Blue background"
               accessibilityHint="Lets you to alter thebackground color in chat"
               accessibilityRole="button"
-              style={styles.colorBlue}
+              style={[styles.colorBlack, { backgroundColor: colors.blue }]}
               onPress={() => setColor(colors.blue)}
             />
           </View>
@@ -173,37 +173,6 @@ const styles = StyleSheet.create({
     margin: 3,
   },
 
-  colorPurple: {
-    height: 40,
-    width: 40,
-    borderRadius: 20,
-    backgroundColor: colors.purple,
-    margin: 3,
-  },
-
-  colorGray: {
-    height: 40,
-    width: 40,
-    borderRadius: 20,
-    backgroundColor: colors.gray,
-    margin: 3,
-  },
-
-  colorHackie: {
-    height: 40,
-    width: 40,
-    borderRadius: 20,
-    backgroundColor: colors.hackie,
-    margin: 3,
-  },
-
-  colorBlue: {
-    height: 40,
-    width: 40,
-    borderRadius: 20,
-    backgroundColor: colors.blue,
-    margin: 3,
-  },
   btnStart: {
     justifyContent: "center",
     alignItems: "center",
