@@ -1,12 +1,37 @@
 import React, { useEffect, useState } from "react";
 import { Bubble, GiftedChat } from "react-native-gifted-chat";
-import { View, StyleSheet, Platform, KeyboardAvoidingView } from "react-native";
+import { View, StyleSheet, Platform, KeyboardAvoidingView, FlatList } from "react-native";
+import * as firebase from 'firebase';
+// import firebase database
+// const firebase = require("firebase");
+// require("firebase/firestore");
+
+import { initializeApp } from 'firebase/app';
+import { collection } from "firebase/firestore/lite";
 
 export default function Chat(props) {
   // state for holding messages
   const [messages, setMessages] = useState([]);
+  
 
-  // destructuring the porps
+  // set the Firebase
+  if (!firebase.apps.length) {
+    initializeApp(firebaseConfig);
+  }
+
+  // configuration of Firebase credentials
+  const firebaseConfig = {
+    apiKey: "AIzaSyDShzCnlD3dY0YlGmueSPVLIW1bIhCiDlE",
+    authDomain: "chatapp-ae72c.firebaseapp.com",
+    projectId: "chatapp-ae72c",
+    storageBucket: "chatapp-ae72c.appspot.com",
+    messagingSenderId: "850257656773",
+  };
+
+  //making reference to collection 
+  const referenceMessages = collection(db, 'messages');
+
+  // destructuring the props
   let { name, color } = props.route.params;
 
   // change title once user proceeds to chat
@@ -35,6 +60,38 @@ export default function Chat(props) {
       },
     ]);
   }, []);
+
+  // checking for updates in collection
+  useEffect(() => {
+    unsubscribe = referenceMessages.onSnapshot(onCollectionUpdate);
+    return () => unsubscribe();
+  }, []);
+
+  // function to retrieve data from a collection
+  function onCollectionUpdate(querySnapshot) {
+    const messages = [];
+    // go through each document
+    querySnapshot.forEach((doc)=> {
+      // get the queryDocumnetSnapshot's data
+      let data = doc.data();
+      messages.push({
+      _id: data._id,
+      text: data.text,
+      createdAt: data.createdAt.toDate(),
+      user: data.user,
+      });
+    });
+  }
+
+  // add message to collection
+  function addMessages(message) {
+    referenceMessages.add({
+      _id: message._id,
+      text: message.text || '',
+      createdAt: message.createdAt,
+      user: message.user
+    })
+  }
 
   // function to send message in chat room
   function onSend(messages = []) {
