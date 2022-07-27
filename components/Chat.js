@@ -27,12 +27,12 @@ export default function Chat(props) {
     messagingSenderId: "850257656773",
   };
 
-  // set the Firebase
+  // set the Firebase 
   if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
   }
 
-  //making reference to collection
+  //making reference to collection to store and retrieve the users messages
   const referenceMessages = firebase.firestore().collection('messages');
 
   // destructuring the props
