@@ -5,18 +5,18 @@ import {
   StyleSheet,
   Platform,
   KeyboardAvoidingView,
-  FlatList,
+  Text
 } from "react-native";
-// import firebase database
-const firebase = require("firebase");
-require("firebase/firestore");
 
-// import { initializeApp } from 'firebase/app';
-// import { getFirestore, collection } from "firebase/firestore/lite";
+// import firebase
+import firebase from "firebase";
+import 'firebase/firestore';
 
 export default function Chat(props) {
   // state for holding messages
   const [messages, setMessages] = useState([]);
+  const [ uid, setUid ] = useState(null);
+  const [ loggedText, setLoggedText ] = useState('Please wait. You are being authenticated')
 
   // configuration of Firebase credentials
   const firebaseConfig = {
@@ -33,7 +33,7 @@ export default function Chat(props) {
   }
 
   //making reference to collection to store and retrieve the users messages
-  const referenceMessages = firebase.firestore().collection('messages');
+  let referenceMessages = firebase.firestore().collection('messages');
 
   // destructuring the props
   let { name, color } = props.route.params;
@@ -73,6 +73,18 @@ export default function Chat(props) {
     return () => unsubscribe();
   }, []);
 
+  //
+  useEffect(()=> {
+    const authUnsubscribe = firebase.auth().onAuthStateChanged((user)=> {
+      if (!user) {
+        firebase.auth().signInAnonymously();
+      }
+      setUid({uid})
+      setMessages({messages})
+    });
+    unsubscribe = referenceMessages.orderBy('createdAt', 'desc').onSnapshot(onCollectionUpdate);
+  }, [])
+
   // function to retrieve data from a collection
   function onCollectionUpdate(querySnapshot) {
     const messages = [];
@@ -96,12 +108,14 @@ export default function Chat(props) {
       text: message.text || "",
       createdAt: message.createdAt,
       user: message.user,
+      uid: message.uid
     });
   }
 
   // function to send message in chat room
   function onSend(messages = []) {
     setMessages((prevState) => GiftedChat.append(prevState.messages, messages));
+    addMessages(messages[0]);
   }
 
   // function to alter the bakcgorund color of bubble when user sends msg in chat
@@ -124,7 +138,7 @@ export default function Chat(props) {
   return (
     <View style={[{ backgroundColor: color }, styles.chatContainer]}>
       {/* <Text style={styles.txt}>Hello {name} from Chat!</Text> */}
-
+      <Text>{loggedText}</Text>
       <GiftedChat
         renderBubble={renderBubble}
         messages={messages}
@@ -132,6 +146,7 @@ export default function Chat(props) {
           console.log(messages, "---------");
            onSend(messages)
         }}
+        
         user={{ _id: 1 }}
       />
       {/* this prevents the screen collapsing with a keyboard */}
