@@ -15,7 +15,6 @@ import 'firebase/firestore';
 export default function Chat(props) {
   // state for holding messages
   const [messages, setMessages] = useState([]);
-  const [ uid, setUid ] = useState(null);
   const [ loggedText, setLoggedText ] = useState('Please wait. You are being authenticated')
 
   // configuration of Firebase credentials
@@ -41,9 +40,7 @@ export default function Chat(props) {
   // change title once user proceeds to chat
   useEffect(() => {
     props.navigation.setOptions({ title: name === "" ? "no title" : name });
-  }, []);
-
-  let unsubscribe; 
+  }, []); 
 
   // update a state
   useEffect(() => {
@@ -58,12 +55,12 @@ export default function Chat(props) {
           avatar: "https://placeimg.com/140/140/any",
         },
       },
-      {
-        _id: 2,
-        text: "This is a system message",
-        createdAt: new Date(),
-        system: true,
-      },
+      // {
+      //   _id: 2,
+      //   text: "This is a system message",
+      //   createdAt: new Date(),
+      //   system: true,
+      // },
     ]);
   }, []);
 
@@ -75,13 +72,15 @@ export default function Chat(props) {
 
   //
   useEffect(()=> {
+    let unsubscribe;
+
     const authUnsubscribe = firebase.auth().onAuthStateChanged((user)=> {
       if (!user) {
         firebase.auth().signInAnonymously();
       }
-      setUid({uid})
-      setMessages({messages})
+      setMessages([])
     });
+    referenceMessages = firebase.firestore().collection('messages');
     unsubscribe = referenceMessages.orderBy('createdAt', 'desc').onSnapshot(onCollectionUpdate);
   }, [])
 
@@ -98,6 +97,7 @@ export default function Chat(props) {
         createdAt: data.createdAt,
         user: data.user,
       });
+      setMessages(messages);
     });
   }
 
@@ -108,14 +108,13 @@ export default function Chat(props) {
       text: message.text || "",
       createdAt: message.createdAt,
       user: message.user,
-      uid: message.uid
     });
   }
 
   // function to send message in chat room
   function onSend(messages = []) {
     setMessages((prevState) => GiftedChat.append(prevState.messages, messages));
-    addMessages(messages[0]);
+    addMessages(messages);
   }
 
   // function to alter the bakcgorund color of bubble when user sends msg in chat
@@ -124,9 +123,9 @@ export default function Chat(props) {
       <Bubble
         {...props}
         wrapperStyle={{
-          // left: {
-          //   backgroundColor: 'blue'
-          // },
+          left: {
+            backgroundColor: 'blue'
+          },
           right: {
             backgroundColor: "#242ACF",
           },
