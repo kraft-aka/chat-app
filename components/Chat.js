@@ -5,29 +5,28 @@ import {
   StyleSheet,
   Platform,
   KeyboardAvoidingView,
-  Text
+  Text,
 } from "react-native";
-
 
 export default class Chat extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       messages: [],
-    }
+    };
   }
 
   componentDidMount() {
     this.setState({
       messages: [
         {
-          _id:1,
-          text: 'Hello Developer',
+          _id: 1,
+          text: "Hello Developer",
           createdAt: new Date(),
           user: {
             _id: 2,
-            name: 'React Native',
-            avatar: 'https://placeimg.com/140/140/any',
+            name: "React Native",
+            avatar: "https://placeimg.com/140/140/any",
           },
         },
       ],
@@ -39,8 +38,11 @@ export default class Chat extends React.Component {
       <Bubble
         {...props}
         wrapperStyle={{
+          left: {
+            backgroundColor: "#fff",
+          },
           right: {
-            backgroundColor: "#000",
+            backgroundColor: "#7209b7",
           },
         }}
       />
@@ -48,19 +50,18 @@ export default class Chat extends React.Component {
   }
 
   // append messages which user sends
-  onSend(messages=[]) {
-    this.setState(prevState => ({
+  onSend(messages = []) {
+    this.setState((prevState) => ({
       messages: GiftedChat.append(prevState.messages, messages),
-    }))
+    }));
   }
 
   render() {
+    let { name, color } = this.props.route.params;
+    this.props.navigation.setOptions({ title: name, color: color });
 
-    let {name , color} = this.props.route.params;
-    this.props.navigation.setOptions({ title: name, color: color})
-
-    return(
-      <View style={ [ { backgroundColor: this.props.route.params.color }]}>
+    return (
+      <View style={[{ backgroundColor: color }, styles.chatContainer]}>
         <GiftedChat
           renderBubble={this.renderBubble.bind(this)}
           messages={this.state.messages}
@@ -73,13 +74,21 @@ export default class Chat extends React.Component {
           <KeyboardAvoidingView behavior="height" />
         ) : null}
       </View>
-    )
+    );
   }
 }
 
 const styles = StyleSheet.create({
+  chatContainer: {
+    flex: 1,
+    justifyContent: "center",
+  },
 
-})
-
-
-
+  txt: {
+    fontSize: 16,
+    color: "#000",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 10,
+  },
+});

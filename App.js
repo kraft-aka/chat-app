@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import React from 'react';
+import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 
 // import the components we want to render
@@ -28,7 +28,6 @@ export default class App extends React.Component {
       </NavigationContainer>
     );
   }
-  
 }
 
 const styles = StyleSheet.create({
