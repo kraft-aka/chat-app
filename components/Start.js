@@ -22,32 +22,36 @@ const colors = {
 };
 
 // function Start renders the main page of the app
-export default function Start(props) {
-  // init states for the name and background color
-  const [name, setName] = useState("");
-  const [color, setColor] = useState();
+export default class Start extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: '',
+      color: '#fff',
+      isFocused: false
+    }
+  }
 
-  // init state to focus in input text
-  const [isFocused, setIsFocused] = useState(false);
+ 
 
-  return (
-    <View style={styles.container}>
+  render() {
+    this.render(
+      <View style={styles.container}>
       <ImageBackground source={image} resizeMode={"cover"} style={styles.image}>
         <Text style={styles.title}>Chat App</Text>
         <View style={styles.box}>
           <TextInput
             style={[
               styles.input,
-              isFocused && {
+              this.state.isFocused && {
                 backgroundColor: "#F1F7F6",
                 borderColor: "#F1F7F6",
               },
             ]}
-            onFocus={() => setIsFocused(!isFocused)}
-            onChangeText={(name) => setName(name)}
-            value={name}
+            onFocus={() => this.setState({isFocused: true})}
+            onChangeText={(name) => this.setState({name})}
+            value={this.state.name}
             placeholder="your name..."
-            {...props}
           />
           <Text style={styles.textBg}>Choose Background Color</Text>
           <View style={styles.colorBg}>
@@ -57,7 +61,7 @@ export default function Start(props) {
               accessibilityHint="Lets you to alter the background color in chat"
               accessibilityRole="button"
               style={styles.colorBlack}
-              onPress={() => setColor(colors.black)}
+              onPress={() => this.setState({color:colors.black})}
             />
             <TouchableOpacity
               accessible={true}
@@ -65,7 +69,7 @@ export default function Start(props) {
               accessibilityHint="Lets you to alter the background color in chat"
               accessibilityRole="button"
               style={[styles.colorBlack, { backgroundColor: colors.purple }]}
-              onPress={() => setColor(colors.purple)}
+              onPress={() => this.setState({color: colors.purple})}
             />
             <TouchableOpacity
               accessible={true}
@@ -73,7 +77,7 @@ export default function Start(props) {
               accessibilityHint="Lets you to alter thebackground color in chat"
               accessibilityRole="button"
               style={[styles.colorBlack, { backgroundColor: colors.gray }]}
-              onPress={() => setColor(colors.gray)}
+              onPress={() => this.setState({color:colors.gray})}
             />
             <TouchableOpacity
               accessible={true}
@@ -81,7 +85,7 @@ export default function Start(props) {
               accessibilityHint="Lets you to alter thebackground color in chat"
               accessibilityRole="button"
               style={[styles.colorBlack, { backgroundColor: colors.hackie }]}
-              onPress={() => setColor(colors.hackie)}
+              onPress={() => this.setState({color:colors.hackie})}
             />
             <TouchableOpacity
               accessible={true}
@@ -89,7 +93,7 @@ export default function Start(props) {
               accessibilityHint="Lets you to alter thebackground color in chat"
               accessibilityRole="button"
               style={[styles.colorBlack, { backgroundColor: colors.blue }]}
-              onPress={() => setColor(colors.blue)}
+              onPress={() => this.setState({color:colors.blue})}
             />
           </View>
           <Pressable
@@ -99,7 +103,7 @@ export default function Start(props) {
             accessibilityRole="button"
             style={styles.btnStart}
             onPress={() => {
-              props.navigation.navigate("Chat", { name: name, color: color });
+              this.props.navigation.navigate("Chat", { name: this.state.name, color: this.state.color });
             }}
           >
             <Text style={styles.btnText}>Start Chatting</Text>
@@ -108,6 +112,8 @@ export default function Start(props) {
       </ImageBackground>
     </View>
   );
+  }
+   
 }
 
 // this is the declaration of styles for the Start component

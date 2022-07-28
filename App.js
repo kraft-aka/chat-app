@@ -1,4 +1,5 @@
 import { StatusBar } from "expo-status-bar";
+import React from 'react';
 import { StyleSheet, Text, View } from "react-native";
 
 // import the components we want to render
@@ -16,15 +17,18 @@ import { createStackNavigator } from "@react-navigation/stack";
 const Stack = createStackNavigator();
 
 // function to render all components of the app
-export default function App() {
-  return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Start">
-        <Stack.Screen name="Start" component={Start} />
-        <Stack.Screen name="Chat" component={Chat} />
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
+export default class App extends React.Component {
+  render() {
+    return (
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Start">
+          <Stack.Screen name="Start" component={Start} />
+          <Stack.Screen name="Chat" component={Chat} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    );
+  }
+  
 }
 
 const styles = StyleSheet.create({
