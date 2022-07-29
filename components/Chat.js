@@ -19,152 +19,6 @@ const firebaseConfig = {
   messagingSenderId: "850257656773",
 };
 
-// export default class Chat extends React.Component {
-//   constructor(props) {
-//     super(props);
-//     this.state = {
-//       messages: [],
-//       uid: 0,
-//       loggedInText: "Please wait. You are being authenticated",
-//       user: {
-//         _id: "",
-//         name: this.props.route.params.name || "User",
-//         avatar: "https://placeimg.com/140/140/any",
-//       },
-//     };
-
-//     if (!firebase.apps.length) {
-//       firebase.initializeApp(firebaseConfig);
-//     }
-
-//     this.referenceMessages = firebase.firestore().collection("messages");
-//   }
-
-//   componentDidMount() {
-
-//     let { name, color } = this.props.route.params;
-//     this.props.navigation.setOptions({ title: name, color: color });
-
-//     this.referenceMessages = firebase.firestore().collection("messages");
-
-//     this.authUnsubscribe = firebase.auth().onAuthStateChanged(async (user) => {
-//       if (!user) {
-//         await firebase.auth().signInAnonymously();
-//       }
-
-//       this.setState({
-//         uid: user.uid,
-//         messages: [],
-//         loggedInText: "Hello there",
-//         user: {
-//           _id: user.uid,
-//           name: name,
-//           avatar: "https://placeimg.com/140/140/any",
-//         },
-//       });
-//       this.referenceMessages = firebase
-//       .firestore()
-//       .collection("messages")
-//       .where("uid", "==", this.state.uid);
-
-//       this.unsubscribe = this.referenceMessages.onSnapshot(
-//       this.onCollectionUpdate);
-
-//       this.unsubscribe = this.referenceMessages
-//       .orderBy("createdAt", "desc")
-//       .onSnapshot(this.onCollectionUpdate);
-//     });
-//   }
-
-//   componentWillUnmount() {
-//     this.unsubscribe();
-//     this.authUnsubscribe();
-//   }
-
-//   onCollectionUpdate = (querySnapshot) => {
-//     const messages = [];
-//     // go through each message
-//     querySnapshot.forEach((doc) => {
-//       // get theQueryDocumentSnapshot data
-//       let data = doc.data();
-//       messages.push({
-//         _id: data._id,
-//         text: data.text,
-//         createdAt: data.createdAt,
-//         // user: {
-//         //   _id: data.user._id,
-//         //   name: data.user.name,
-//         //   avatar: data.user.avatar,
-//         // },
-//         user: data.user,
-//       });
-//     });
-//     this.setState({
-//       messages: messages,
-//     });
-//   };
-
-//   addMessage() {
-//     const message = this.state.messages[0];
-//     this.referenceMessages.add({
-//       uid: this.state.uid,
-//       _id: message._id,
-//       text: message.text || "",
-//       createdAt: message.createdAt,
-//       user: message.user,
-//     });
-//   }
-
-//   renderBubble(props) {
-//     return (
-//       <Bubble
-//         {...props}
-//         wrapperStyle={{
-//           left: {
-//             backgroundColor: "#fff",
-//           },
-//           right: {
-//             backgroundColor: "#7209b7",
-//           },
-//         }}
-//       />
-//     );
-//   }
-
-//   // append messages which user sends
-//   onSend(messages = []) {
-//     this.setState(
-//       (prevState) => ({
-//         messages: GiftedChat.append(prevState.messages, messages),
-//       }),
-//       () => this.addMessage()
-//     );
-//   }
-
-//   render() {
-//     let { name, color } = this.props.route.params;
-    
-//     return (
-//       <View style={[{ backgroundColor: color }, styles.chatContainer]}>
-//         <Text>{this.state.loggedInText}</Text>
-//         <GiftedChat
-//           renderBubble={this.renderBubble.bind(this)}
-//           messages={this.state.messages}
-//           onSend={(messages) => this.onSend(messages)}
-//           user={{
-//             _id: this.state.user._id,
-//             name: name,
-//             avatar: this.state.avatar,
-//           }}
-//         />
-//         {Platform.OS === "android" ? (
-//           <KeyboardAvoidingView behavior="height" />
-//         ) : null}
-//       </View>
-//     );
-//   }
-// }
-
 class Chat extends React.Component {
 	constructor() {
 		super();
@@ -175,7 +29,7 @@ class Chat extends React.Component {
 			user: {
 				_id: '',
 				name: '',
-				avatar: "https://placeimg.com/140/140/any",
+				avatar: '',
 			},
 		}
 
@@ -240,7 +94,7 @@ class Chat extends React.Component {
 			_id: message._id,
 			text: message.text || "",
 			createdAt: message.createdAt,
-			user: message.user,
+			user: this.state.user,
 		});
 	}
 
@@ -259,6 +113,7 @@ class Chat extends React.Component {
 		querySnapshot.forEach((doc) => {
 			// get the QueryDocumentSnapshot's data
 			let data = doc.data();
+      console.log(data)
 			messages.push({
 				_id: data._id,
 				text: data.text,
@@ -294,17 +149,16 @@ class Chat extends React.Component {
 		let { color, name } = this.props.route.params;
 		return (
 			<View style={[{ backgroundColor: color }, styles.chatContainer]}>
-        <Text>{this.state.loggedInText}</Text>
+        <Text style={{ margin: 5 }}>{this.state.loggedInText}</Text>
 				<GiftedChat
 					renderBubble={this.renderBubble.bind(this)}
 					messages={this.state.messages}
-					// onSend={(messages) => this.onSend(messages)}
-          onSend={(messages)=> console.log(messages)}
+					onSend={(messages) => this.onSend(messages)}
+          // onSend={(messages)=> console.log(messages)}
 					user={{
 						_id: this.state.user._id,
 						name: name,
 						avatar: this.state.user.avatar
-
 					}}
 				/>
 				{/* Avoid keyboard to overlap text messages on older Andriod versions  */}
