@@ -113,7 +113,7 @@ class Chat extends React.Component {
 		querySnapshot.forEach((doc) => {
 			// get the QueryDocumentSnapshot's data
 			let data = doc.data();
-      console.log(data)
+      //console.log(data)
 			messages.push({
 				_id: data._id,
 				text: data.text,
