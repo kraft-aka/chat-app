@@ -16,6 +16,12 @@ export default function Chat(props) {
   // state for holding messages
   const [messages, setMessages] = useState([]);
   const [ loggedText, setLoggedText ] = useState('Please wait. You are being authenticated')
+	const [ user, setUser ] = useState(
+		{
+			_id: 0,
+			name: name,
+			avatar: ''
+		})
 
   // configuration of Firebase credentials
   const firebaseConfig = {
@@ -142,11 +148,17 @@ export default function Chat(props) {
         renderBubble={renderBubble}
         messages={messages}
         onSend={(messages) => {
-          console.log(messages, "---------");
+          //console.log(messages, "---------");
            onSend(messages)
+					 console.log(user)
         }}
         
-        user={{ _id: 1 }}
+        user={{ 
+					
+					_id: 1,
+					name: name,
+					// avatar: avatar 
+				}}
       />
       {/* this prevents the screen collapsing with a keyboard */}
       {Platform.OS === "android" ? (
