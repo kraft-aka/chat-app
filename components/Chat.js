@@ -10,6 +10,7 @@ import {
 
 import firebase from "firebase";
 import "firebase/firestore";
+import AsyncStorage from '@react-native-community/async-storage';
 
 const firebaseConfig = {
   apiKey: "AIzaSyDShzCnlD3dY0YlGmueSPVLIW1bIhCiDlE",
@@ -43,9 +44,22 @@ class Chat extends React.Component {
 		this.referenceMessagesUser = null;
 	}
 
+	async getMessages() {
+		let messages = '';
+		try {
+			messages = await AsyncStorage.getItem('messages') || [];
+			this.setState({
+				messages: JSON.parse(messages)
+			});
+		} catch (error) {
+			console.log(error.message); 
+		}
+	}
+
 
 
 	componentDidMount() {
+		this.getMessages();
 
 		let { name, color } = this.props.route.params;
 		this.props.navigation.setOptions({ title: name, color: color });
@@ -86,6 +100,26 @@ class Chat extends React.Component {
 		this.unsubscribe();
 	}
 
+
+	async saveMessages() {
+		try {
+			await AsyncStorage.setItem('messages', JSON.stringify(this.state.messages));
+		} catch (error) {
+			console.log(error.message);
+		}
+	}
+
+	async deleteMessages() {
+		try {
+			await AsyncStorage.removeItem('messages');
+			this.setState({
+				messages: []
+			}); 
+		} catch (error) {
+			console.log(error.message);
+		}
+	}
+
 	// Add messages to cloud storage
 	addMessages() {
 		const message = this.state.messages[0];
@@ -103,6 +137,7 @@ class Chat extends React.Component {
 			messages: GiftedChat.append(previousState.messages, messages),
 		}), () => {
 			this.addMessages();
+			this.saveMessages();
 		});
 	}
 
