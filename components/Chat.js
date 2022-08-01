@@ -1,5 +1,5 @@
 import React from "react";
-import { Bubble, GiftedChat } from "react-native-gifted-chat";
+import { Bubble, GiftedChat, InputToolbar } from "react-native-gifted-chat";
 import {
   View,
   StyleSheet,
@@ -11,6 +11,8 @@ import {
 import firebase from "firebase";
 import "firebase/firestore";
 import AsyncStorage from '@react-native-community/async-storage';
+import NetInfo from '@react-native-community/netinfo';
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyDShzCnlD3dY0YlGmueSPVLIW1bIhCiDlE",
@@ -32,6 +34,7 @@ class Chat extends React.Component {
 				name: '',
 				avatar: '',
 			},
+			isConnected: false,
 		}
 
 		// initializes the Firestore app
@@ -66,6 +69,15 @@ class Chat extends React.Component {
 
 		// Reference to load messages via Firebase
 		this.referenceChatMessages = firebase.firestore().collection("messages");
+
+
+		NetInfo.fetch().then(connection => {
+			if ( connection.isConnected) {
+				console.log('online');
+			} else {
+				console.log('offline');
+			}
+		})
 
 
 
@@ -161,6 +173,17 @@ class Chat extends React.Component {
 		});
 	}
 
+	renderInputToolbar(props) {
+		if (this.state.isConnected == false) {
+	 	} else {
+			return (
+				<InputToolbar
+				{...props} 
+				/>
+			)
+		}
+	}
+
 
 
 	// Customize the color of the sender bubble
@@ -187,6 +210,7 @@ class Chat extends React.Component {
         <Text style={{ margin: 5 }}>{this.state.loggedInText}</Text>
 				<GiftedChat
 					renderBubble={this.renderBubble.bind(this)}
+					renderInputToolbar={this.renderInputToolbar.bind(this)}
 					messages={this.state.messages}
 					onSend={(messages) => this.onSend(messages)}
           // onSend={(messages)=> console.log(messages)}
