@@ -1,18 +1,22 @@
 import React from "react";
-import { Bubble, GiftedChat, InputToolbar } from "react-native-gifted-chat";
+import { Bubble, GiftedChat,InputToolbar } from "react-native-gifted-chat";
 import {
   View,
   StyleSheet,
   Platform,
   KeyboardAvoidingView,
-  Text,
+  Text
 } from "react-native";
 
 import firebase from "firebase";
 import "firebase/firestore";
-import AsyncStorage from "@react-native-community/async-storage";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import NetInfo from "@react-native-community/netinfo";
+import MapView from "react-native-maps";
 
+import CustomActions from "./CustomActions";
+
+// set up firebase
 const firebaseConfig = {
   apiKey: "AIzaSyDShzCnlD3dY0YlGmueSPVLIW1bIhCiDlE",
   authDomain: "chatapp-ae72c.firebaseapp.com",
@@ -34,6 +38,8 @@ class Chat extends React.Component {
         avatar: "",
       },
       isConnected: false,
+      image: null,
+      location: null,
     };
 
     // initializes the Firestore app
@@ -46,6 +52,7 @@ class Chat extends React.Component {
     this.referenceMessagesUser = null;
   }
 
+  // get stored messages from storage
   async getMessages() {
     let messages = "";
     try {
@@ -57,7 +64,6 @@ class Chat extends React.Component {
       console.log(error.message);
     }
   }
-
 
   componentDidMount() {
     this.getMessages();
@@ -101,14 +107,15 @@ class Chat extends React.Component {
     });
   }
 
-
   // stop listening to auth and collection changes
   componentWillUnmount() {
-    this.authUnsubscribe();
-    this.unsubscribe();
+    if (this.isConnected) {
+      this.unsubscribe();
+      this.authUnsubscribe();
+    }
   }
 
-	// retrives the chat messgaes from storage
+  // retrives the chat messgaes from storage
   async saveMessages() {
     try {
       await AsyncStorage.setItem(
@@ -120,7 +127,7 @@ class Chat extends React.Component {
     }
   }
 
-	// deletes stored messages
+  // deletes stored messages
   async deleteMessages() {
     try {
       await AsyncStorage.removeItem("messages");
@@ -140,19 +147,23 @@ class Chat extends React.Component {
       _id: message._id,
       text: message.text || "",
       createdAt: message.createdAt,
-      user: this.state.user,
+      user: message.user,
+      image: message.image || null,
+      location: message.location || null,
     });
   }
 
-	// sends the messages 
+  // sends the messages
   onSend(messages = []) {
     this.setState(
       (previousState) => ({
         messages: GiftedChat.append(previousState.messages, messages),
       }),
       () => {
-        this.addMessages();
         this.saveMessages();
+        if (this.state.isConnected === true) {
+          this.addMessages(this.state.messages[0]);
+        }
       }
     );
   }
@@ -162,13 +173,18 @@ class Chat extends React.Component {
     // go through each document
     querySnapshot.forEach((doc) => {
       // get the QueryDocumentSnapshot's data
-      let data = doc.data();
-      //console.log(data)
+      var data = doc.data();
       messages.push({
         _id: data._id,
         text: data.text,
         createdAt: data.createdAt.toDate(),
-        user: data.user,
+        user: {
+          _id: data.user._id,
+          name: data.user.name,
+          avatar: data.user.avatar,
+        },
+        image: data.image || null,
+        location: data.location || null,
       });
     });
     this.setState({
@@ -176,7 +192,7 @@ class Chat extends React.Component {
     });
   };
 
-	// renders toolbar when offline
+  // renders toolbar when offline
   renderInputToolbar(props) {
     if (this.state.isConnected == false) {
     } else {
@@ -201,6 +217,28 @@ class Chat extends React.Component {
     );
   }
 
+  // creates circle button
+  renderCustomActions = (props) => <CustomActions {...props} />;
+
+  //custom map view
+  renderCustomView(props) {
+    const { currentMessage } = props;
+    if (currentMessage.location) {
+      return (
+        <MapView
+          style={{ width: 150, height: 100, borderRadius: 13, margin: 3 }}
+          region={{
+            latitude: currentMessage.location.latitude,
+            longitude: currentMessage.location.longitude,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          }}
+        />
+      );
+    }
+    return null;
+  }
+
   render() {
     let { color, name } = this.props.route.params;
     return (
@@ -211,7 +249,8 @@ class Chat extends React.Component {
           renderInputToolbar={this.renderInputToolbar.bind(this)}
           messages={this.state.messages}
           onSend={(messages) => this.onSend(messages)}
-          // onSend={(messages)=> console.log(messages)}
+          renderActions={this.renderCustomActions.bind(this)}
+          renderCustomView={this.renderCustomView}
           user={{
             _id: this.state.user._id,
             name: name,

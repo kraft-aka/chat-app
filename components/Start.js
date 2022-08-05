@@ -40,7 +40,7 @@ export default class Start extends React.Component {
           resizeMode={"cover"}
           style={styles.image}
         >
-          <Text style={styles.title}>Chat App</Text>
+          <Text style={styles.title}>Chattify</Text>
           <View style={styles.box}>
             <TextInput
               style={[
@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
     fontSize: 45,
     fontWeight: "600",
     color: "#fff",
-    marginLeft: 16,
+    textAlign: 'center'
   },
 
   input: {
