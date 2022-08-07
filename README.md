@@ -5,7 +5,7 @@
 This app is designed for mobile devices by React Native. The App's interface allowes 
 users to chat with each other, share images and locations, take photos.
 
-![Screenshot_1](https://user-images.githubusercontent.com/57872789/183294633-9d2b35fc-6465-4a27-9631-3f0484e34db2.png)
+![Screenshot_2](https://user-images.githubusercontent.com/57872789/183294891-3caac0de-d7c5-43d4-93d0-375ef6171613.png)
 
 ## User Stories
 - As a new user, I want to be able to easily enter a chat room so I can quickly start talking to my
