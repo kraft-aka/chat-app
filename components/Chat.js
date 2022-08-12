@@ -56,7 +56,7 @@ class Chat extends React.Component {
   async getMessages() {
     let messages = "";
     try {
-      messages = (await AsyncStorage.getItem("messages")) || [];
+      messages = (await AsyncStorage.getItem("messages")) || '[]';
       this.setState({
         messages: JSON.parse(messages),
       });
